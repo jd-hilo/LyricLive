@@ -23,7 +23,7 @@ struct PaywallView: View {
         .init(id: "live", symbol: "lock.iphone", title: "Live Activity and Dynamic Island lyrics", feature: .liveActivity),
         .init(id: "widgets", symbol: "square.grid.2x2", title: "Medium, large and Now Playing widgets", feature: .largeWidgets),
         .init(id: "carplay", symbol: "car", title: "Lyrics in CarPlay", feature: .carPlay),
-        .init(id: "translate", symbol: "character.bubble", title: "Unlimited on-device translation", feature: .translation),
+        .init(id: "translate", symbol: "character.bubble", title: "Unlimited translation into English", feature: .translation),
         .init(id: "sources", symbol: "waveform.badge.magnifyingglass", title: "Spotify and Shazam mode", feature: .spotify),
         .init(id: "share", symbol: "square.and.arrow.up", title: "Share cards without watermark", feature: .shareCardsNoWatermark),
         .init(id: "looks", symbol: "paintpalette", title: "Artwork backgrounds and font styles", feature: .premiumBackgrounds),
@@ -96,7 +96,7 @@ struct PaywallView: View {
 
     private var subtitle: LocalizedStringKey {
         switch reason {
-        case .general: return "Lyrics on every screen you use."
+        case .general: return "Synced lyrics on your Lock Screen, widgets, and CarPlay. Songs in other languages translate into English."
         case .feature(.liveActivity): return "Unlock Lock Screen and Dynamic Island lyrics."
         case .feature(.carPlay): return "Unlock lyrics in CarPlay."
         case .feature(.translation): return "You've used today's free translations. Go Pro for unlimited."

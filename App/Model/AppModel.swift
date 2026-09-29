@@ -484,8 +484,8 @@ final class AppModel: ObservableObject {
             return
         }
 
-        if track.source == .demo, TranslationLanguages.isSameLanguage(target, "zh-Hant") {
-            let bundled = DemoContent.translationsZhHant
+        if track.source == .demo, TranslationLanguages.isSameLanguage(target, "en") {
+            let bundled = DemoContent.translationsEn
             translations = bundled
             translationStatus = .ready
             publish(.playback)

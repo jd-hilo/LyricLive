@@ -75,7 +75,9 @@ To turn it on:
 
 [LRCLIB](https://lrclib.net/api) needs no key. The app calls `GET /api/get` with title, artist, album, and duration, then `GET /api/search` if that misses. Synced LRC is preferred, plain lyrics are the fallback, and results are cached as JSON in the App Group container. The user agent is set in `LRCLibClient`.
 
-Translation uses Apple’s Translation framework (`translationTask` / `TranslationSession`) on iOS 18 and later. On iOS 17 the toggle explains that it needs 18. The default target language follows the device; Traditional Chinese is listed first and is the match for `zh-Hant`, `zh-TW`, and `zh-HK`.
+LyricLive is aimed at English-speaking listeners, with the US storefront first. English is the development language. Traditional Chinese (`zh-Hant`) ships as an optional localization and is not the default.
+
+Translation uses Apple’s Translation framework (`translationTask` / `TranslationSession`) on iOS 18 and later. On iOS 17 the toggle explains that it needs 18. The default target is English, so lyrics in other languages are translated into English. The language picker lists English, then Spanish, Korean, Japanese, French, Portuguese, German, and Italian, with other languages after that. The built-in demo song is Spanish and includes a bundled English translation, so the feature works in the simulator with no network.
 
 ## Project layout
 
@@ -85,7 +87,7 @@ App/                         SwiftUI app, sources, CarPlay scene, settings, payw
 Shared/                      App Group store, ActivityAttributes, App Intents (compiled into both targets)
 Widgets/                     WidgetKit extension and the Live Activity
 Packages/LyricCore/          Parser, sync, LRCLIB client, cache (no UIKit)
-App/Resources/*.lproj        English and Traditional Chinese strings
+App/Resources/*.lproj        English (default) and optional Traditional Chinese strings
 Config/*.entitlements        App Group, and the CarPlay variant
 research/                    Scraped listing, SPEC.md, UI_PARITY.md, screenshots
 ```

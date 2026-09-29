@@ -50,7 +50,7 @@
 "Apple Music access" = "Apple Music access";
 "Microphone access" = "Microphone access";
 "Nothing playing" = "Nothing playing";
-"Play a song in Apple Music and its lyrics show up here, on your Lock Screen and in widgets. Or try the built-in demo song." = "Play a song in Apple Music and its lyrics show up here, on your Lock Screen and in widgets. Or try the built-in demo song.";
+"Play a song in Apple Music and the lyrics show up here, on your Lock Screen, and in widgets. The built-in demo is in Spanish, with an English translation." = "Play a song in Apple Music and the lyrics show up here, on your Lock Screen, and in widgets. The built-in demo is in Spanish, with an English translation.";
 "Play demo song" = "Play demo song";
 "Open lyrics" = "Open lyrics";
 "No lyrics found" = "No lyrics found";
@@ -120,9 +120,9 @@
 "Square" = "Square";
 "Story" = "Story";
 "Select up to %lld lines" = "Select up to %lld lines";
-"Lyrics that follow the music" = "Lyrics that follow the music";
-"Time-synced lyrics for whatever you're playing, on your Lock Screen, Dynamic Island, widgets and in the car." = "Time-synced lyrics for whatever you're playing, on your Lock Screen, Dynamic Island, widgets and in the car.";
-"Translate lyrics on your device" = "Translate lyrics on your device";
+"Lyrics for the song that's playing" = "Lyrics for the song that's playing";
+"Synced lyrics for Apple Music and Spotify, on your Lock Screen, Dynamic Island, widgets, and in the car. Songs in other languages translate into English." = "Synced lyrics for Apple Music and Spotify, on your Lock Screen, Dynamic Island, widgets, and in the car. Songs in other languages translate into English.";
+"Translate songs into English" = "Translate songs into English";
 "Live lyrics on the Lock Screen" = "Live lyrics on the Lock Screen";
 "Home Screen and Lock Screen widgets" = "Home Screen and Lock Screen widgets";
 "Lyrics in CarPlay" = "Lyrics in CarPlay";
@@ -144,12 +144,12 @@
 "Start listening" = "Start listening";
 "Live Activity and Dynamic Island lyrics" = "Live Activity and Dynamic Island lyrics";
 "Medium, large and Now Playing widgets" = "Medium, large and Now Playing widgets";
-"Unlimited on-device translation" = "Unlimited on-device translation";
+"Unlimited translation into English" = "Unlimited translation into English";
 "Spotify and Shazam mode" = "Spotify and Shazam mode";
 "Share cards without watermark" = "Share cards without watermark";
 "Artwork backgrounds and font styles" = "Artwork backgrounds and font styles";
 "%@ Pro" = "%@ Pro";
-"Lyrics on every screen you use." = "Lyrics on every screen you use.";
+"Synced lyrics on your Lock Screen, widgets, and CarPlay. Songs in other languages translate into English." = "Synced lyrics on your Lock Screen, widgets, and CarPlay. Songs in other languages translate into English.";
 "Unlock Lock Screen and Dynamic Island lyrics." = "Unlock Lock Screen and Dynamic Island lyrics.";
 "Unlock lyrics in CarPlay." = "Unlock lyrics in CarPlay.";
 "You've used today's free translations. Go Pro for unlimited." = "You've used today's free translations. Go Pro for unlimited.";
@@ -181,7 +181,7 @@
 "No previous purchases were found." = "No previous purchases were found.";
 "Lyrics" = "Lyrics";
 "Reset appearance" = "Reset appearance";
-"Translation runs on your device with Apple's Translation framework (iOS 18 or later). Language packs download the first time you use them." = "Translation runs on your device with Apple's Translation framework (iOS 18 or later). Language packs download the first time you use them.";
+"Songs in other languages translate into English on your iPhone (iOS 18 or later). You can pick another language below. Language packs download the first time you use them." = "Songs in other languages translate into English on your iPhone (iOS 18 or later). You can pick another language below. Language packs download the first time you use them.";
 "Global lyric offset" = "Global lyric offset";
 "Positive values show lyrics earlier. You can also adjust a single song from the lyrics screen." = "Positive values show lyrics earlier. You can also adjust a single song from the lyrics screen.";
 "Keep lyrics updating in the background" = "Keep lyrics updating in the background";

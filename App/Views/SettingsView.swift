@@ -94,7 +94,7 @@ struct SettingsView: View {
             Toggle("Show translation", isOn: $settings.showTranslation)
             Picker("Translate to", selection: $settings.translationLanguage) {
                 ForEach(TranslationLanguages.all) { language in
-                    Text("\(language.nativeName) (\(language.code))").tag(language.code)
+                    Text("\(language.displayName()) (\(language.code))").tag(language.code)
                 }
             }
             if !store.isPro {
@@ -104,7 +104,7 @@ struct SettingsView: View {
         } header: {
             Text("Translation")
         } footer: {
-            Text("Translation runs on your device with Apple's Translation framework (iOS 18 or later). Language packs download the first time you use them.")
+            Text("Songs in other languages translate into English on your iPhone (iOS 18 or later). You can pick another language below. Language packs download the first time you use them.")
         }
     }
 

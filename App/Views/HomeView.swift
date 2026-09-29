@@ -90,7 +90,7 @@ struct HomeView: View {
                     .foregroundStyle(Brand.pink)
                 Text("Nothing playing")
                     .font(.title3.weight(.bold))
-                Text("Play a song in Apple Music and its lyrics show up here, on your Lock Screen and in widgets. Or try the built-in demo song.")
+                Text("Play a song in Apple Music and the lyrics show up here, on your Lock Screen, and in widgets. The built-in demo is in Spanish, with an English translation.")
                     .font(.subheadline)
                     .foregroundStyle(.white.opacity(0.7))
                     .multilineTextAlignment(.center)

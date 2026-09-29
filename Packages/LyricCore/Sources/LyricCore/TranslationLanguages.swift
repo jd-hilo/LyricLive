@@ -10,7 +10,7 @@ public struct TranslationLanguage: Identifiable, Hashable, Codable, Sendable {
         self.code = code
     }
 
-    /// Name of the language written in `locale`, e.g. "Chinese, Traditional" or "繁體中文".
+    /// Name of the language written in `locale`. English UI shows "Spanish", "Korean", and so on.
     public func displayName(in locale: Locale = .current) -> String {
         locale.localizedString(forIdentifier: code) ?? code
     }
@@ -22,22 +22,22 @@ public struct TranslationLanguage: Identifiable, Hashable, Codable, Sendable {
 }
 
 public enum TranslationLanguages {
-    /// Languages offered by Apple's on-device Translation framework (iOS 18). Traditional Chinese first.
+    /// Targets offered by Apple's on-device Translation framework (iOS 18).
+    /// English is the default. The languages an English-speaking listener most often meets come next.
+    /// Traditional Chinese is available, but it is not pinned to the top.
     public static let all: [TranslationLanguage] = [
-        "zh-Hant", "zh-Hans", "en", "ja", "ko", "es", "fr", "de", "it", "pt-BR", "ru", "ar", "hi",
-        "id", "th", "vi", "tr", "nl", "pl", "uk",
+        "en", "es", "ko", "ja", "fr", "pt-BR", "de", "it",
+        "zh-Hans", "zh-Hant", "ru", "ar", "hi", "id", "th", "vi", "tr", "nl", "pl", "uk",
     ].map(TranslationLanguage.init(code:))
 
     public static let fallbackCode = "en"
 
-    /// Picks the translation target matching the device language. Traditional Chinese covers zh-Hant,
-    /// zh-TW, zh-HK and zh-MO.
+    /// New installs translate foreign lyrics into English. `locale` and `preferred` are accepted so call sites
+    /// can still pass the device language, and they do not change the default.
     public static func defaultTarget(for locale: Locale = .current, preferred: [String] = Locale.preferredLanguages) -> String {
-        let identifiers = preferred.isEmpty ? [locale.identifier] : preferred
-        for identifier in identifiers {
-            if let match = match(identifier: identifier) { return match }
-        }
-        return match(identifier: locale.identifier) ?? fallbackCode
+        _ = locale
+        _ = preferred
+        return fallbackCode
     }
 
     public static func match(identifier: String) -> String? {

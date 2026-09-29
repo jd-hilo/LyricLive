@@ -70,6 +70,7 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
         UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
         ITSAppUsesNonExemptEncryption: false
+        # English is the development language. zh-Hant is optional and is not the assumed audience.
         NSAppleMusicUsageDescription: Lyrics need to know which song is playing in the Music app.
         NSMicrophoneUsageDescription: Shazam mode listens for music playing around you to identify the song. Audio is only used to find a match.
         NSSupportsLiveActivities: true

@@ -18,7 +18,7 @@ struct LyricEntry: TimelineEntry {
             clock: PlaybackClock(anchorPosition: 26, anchorDate: Date(), rate: 0, duration: DemoContent.track.duration),
             lines: DemoContent.document.lines,
             isSynced: true,
-            translations: DemoContent.translationsZhHant,
+            translations: DemoContent.translationsEn,
             paletteHex: PaletteExtractor.fallback.map(\.hex),
             isPro: true
         )

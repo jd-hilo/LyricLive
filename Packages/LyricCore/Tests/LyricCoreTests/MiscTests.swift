@@ -112,15 +112,18 @@ final class TranslationLanguagesTests: XCTestCase {
         XCTAssertNil(TranslationLanguages.match(identifier: "xx-YY"))
     }
 
-    func testDefaultTargetUsesFirstSupportedPreferredLanguage() {
-        XCTAssertEqual(TranslationLanguages.defaultTarget(preferred: ["zh-Hant-TW", "en-US"]), "zh-Hant")
-        XCTAssertEqual(TranslationLanguages.defaultTarget(preferred: ["xx", "fr-FR"]), "fr")
-        XCTAssertEqual(TranslationLanguages.defaultTarget(for: Locale(identifier: "xx"), preferred: ["xx"]), "en")
+    func testDefaultTargetIsEnglish() {
+        XCTAssertEqual(TranslationLanguages.defaultTarget(), "en")
+        XCTAssertEqual(TranslationLanguages.defaultTarget(preferred: ["zh-Hant-TW", "es-MX"]), "en")
+        XCTAssertEqual(TranslationLanguages.defaultTarget(preferred: ["ko-KR"]), "en")
+        XCTAssertEqual(TranslationLanguages.defaultTarget(for: Locale(identifier: "ja"), preferred: ["ja"]), "en")
     }
 
-    func testTraditionalChineseIsListedFirst() {
-        XCTAssertEqual(TranslationLanguages.all.first?.code, "zh-Hant")
-        XCTAssertEqual(Set(TranslationLanguages.all.map(\.code)).count, TranslationLanguages.all.count)
+    func testEnglishListenersSeeCommonLanguagesFirst() {
+        let codes = TranslationLanguages.all.map(\.code)
+        XCTAssertEqual(Array(codes.prefix(8)), ["en", "es", "ko", "ja", "fr", "pt-BR", "de", "it"])
+        XCTAssertGreaterThan(codes.firstIndex(of: "zh-Hant") ?? 0, codes.firstIndex(of: "de") ?? 0)
+        XCTAssertEqual(Set(codes).count, codes.count)
     }
 
     func testSameLanguage() {

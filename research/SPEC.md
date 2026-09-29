@@ -7,6 +7,8 @@ and raw API payloads are in `research/raw/`. **Nothing from this folder is bundl
 
 Our clone is called **LyricLive** (placeholder, see README for renaming).
 
+**Audience.** LyricLive targets English-speaking listeners, US storefront first. English is the development language and the default translation target (foreign lyrics are translated into English). The language list leads with Spanish, Korean, Japanese, French, Portuguese, German, and Italian. Traditional Chinese remains an optional app localization (`zh-Hant.lproj`) and a picker choice, not the assumed user. The TW/HK facts below describe the reference listing that was scraped. They are not LyricLive's market.
+
 ---
 
 ## 1. Target app: what we scraped
@@ -210,7 +212,7 @@ below. Headline copy: `車載歌詞`, `歌詞翻譯`, `鎖定螢幕歌詞`, `動
    (Live Activity toggle, widgets guide, CarPlay note), Shazam listen button. Persistent mini player bar above the tab bar.
 3. **Lyrics screen** (full-screen cover): as §2.1. Tap a line to seek (Apple Music, Spotify). Menu: offset ±, translation language, share, search another lyric.
 4. **Library tab**: favorites (heart) and recently played, tap → cached lyrics screen.
-5. **Settings**: font size, alignment, background style, translation (on/off, language), lyric offset, sources, Live Activity, background keep-alive, Pro status.
+5. **Settings**: font size, alignment, background style, translation (on/off; target defaults to English), lyric offset, sources, Live Activity, background keep-alive, Pro status.
 6. **Paywall** (StoreKit 2): monthly, yearly (best value), lifetime; restore; legal links. Gate: see below.
 7. **Share card**: choose lines, style, aspect → render image → share sheet.
 

@@ -149,7 +149,7 @@ final class LRCParserTests: XCTestCase {
         let doc = DemoContent.document
         XCTAssertTrue(doc.isSynced)
         XCTAssertGreaterThan(doc.lines.count, 15)
-        let translations = DemoContent.translationsZhHant
+        let translations = DemoContent.translationsEn
         XCTAssertEqual(translations.count, doc.lines.count)
         for (line, translation) in zip(doc.lines, translations) where !line.isGap {
             XCTAssertFalse(translation.isEmpty, "Missing translation for \(line.text)")

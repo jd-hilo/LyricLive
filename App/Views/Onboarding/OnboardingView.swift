@@ -55,10 +55,10 @@ struct OnboardingView: View {
     private var welcomePage: some View {
         OnboardingPage(
             symbol: "text.quote",
-            title: "Lyrics that follow the music",
-            message: "Time-synced lyrics for whatever you're playing, on your Lock Screen, Dynamic Island, widgets and in the car.",
+            title: "Lyrics for the song that's playing",
+            message: "Synced lyrics for Apple Music and Spotify, on your Lock Screen, Dynamic Island, widgets, and in the car. Songs in other languages translate into English.",
             bullets: [
-                ("character.bubble", "Translate lyrics on your device"),
+                ("character.bubble", "Translate songs into English"),
                 ("lock.iphone", "Live lyrics on the Lock Screen"),
                 ("square.grid.2x2", "Home Screen and Lock Screen widgets"),
                 ("car", "Lyrics in CarPlay"),

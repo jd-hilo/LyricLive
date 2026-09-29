@@ -194,7 +194,7 @@ struct LyricsScreen: View {
             }
             Picker("Translate to", selection: $settings.translationLanguage) {
                 ForEach(TranslationLanguages.all) { language in
-                    Text("\(language.nativeName) (\(language.code))").tag(language.code)
+                    Text("\(language.displayName()) (\(language.code))").tag(language.code)
                 }
             }
             if !store.isPro {

@@ -65,8 +65,8 @@ APP = {
     "Microphone access": "麥克風存取權限",
     # Home
     "Nothing playing": "沒有正在播放的歌曲",
-    "Play a song in Apple Music and its lyrics show up here, on your Lock Screen and in widgets. Or try the built-in demo song.":
-        "在 Apple Music 播放歌曲，歌詞就會顯示在這裡、鎖定畫面與小工具上。也可以試試內建的示範歌曲。",
+    "Play a song in Apple Music and the lyrics show up here, on your Lock Screen, and in widgets. The built-in demo is in Spanish, with an English translation.":
+        "在 Apple Music 播放歌曲，歌詞就會顯示在這裡、鎖定畫面與小工具上。內建示範歌曲是西班牙文，並附英文翻譯。",
     "Play demo song": "播放示範歌曲",
     "Open lyrics": "開啟歌詞",
     "No lyrics found": "找不到歌詞",
@@ -140,10 +140,10 @@ APP = {
     "Story": "限時動態",
     "Select up to %lld lines": "最多可選 %lld 行",
     # Onboarding
-    "Lyrics that follow the music": "隨音樂流動的歌詞",
-    "Time-synced lyrics for whatever you're playing, on your Lock Screen, Dynamic Island, widgets and in the car.":
-        "無論播放什麼，都能在鎖定畫面、動態島、小工具和車上查看時間同步的歌詞。",
-    "Translate lyrics on your device": "在裝置上翻譯歌詞",
+    "Lyrics for the song that's playing": "正在播放的歌曲歌詞",
+    "Synced lyrics for Apple Music and Spotify, on your Lock Screen, Dynamic Island, widgets, and in the car. Songs in other languages translate into English.":
+        "Apple Music 與 Spotify 的同步歌詞，顯示在鎖定畫面、動態島、小工具與車上。其他語言的歌曲會翻譯成英文。",
+    "Translate songs into English": "把歌曲翻譯成英文",
     "Live lyrics on the Lock Screen": "鎖定畫面上的即時歌詞",
     "Home Screen and Lock Screen widgets": "主畫面與鎖定畫面小工具",
     "Lyrics in CarPlay": "CarPlay 歌詞",
@@ -169,12 +169,13 @@ APP = {
     # Paywall
     "Live Activity and Dynamic Island lyrics": "即時活動與動態島歌詞",
     "Medium, large and Now Playing widgets": "中型、大型與「正在播放」小工具",
-    "Unlimited on-device translation": "無限次裝置端翻譯",
+    "Unlimited translation into English": "無限次翻譯成英文",
     "Spotify and Shazam mode": "Spotify 與 Shazam 模式",
     "Share cards without watermark": "無浮水印的分享卡片",
     "Artwork backgrounds and font styles": "封面背景與字體樣式",
     "%@ Pro": "%@ Pro",
-    "Lyrics on every screen you use.": "你用的每個螢幕都有歌詞。",
+    "Synced lyrics on your Lock Screen, widgets, and CarPlay. Songs in other languages translate into English.":
+        "鎖定畫面、小工具與 CarPlay 上的同步歌詞。其他語言的歌曲會翻譯成英文。",
     "Unlock Lock Screen and Dynamic Island lyrics.": "解鎖鎖定畫面與動態島歌詞。",
     "Unlock lyrics in CarPlay.": "解鎖 CarPlay 歌詞。",
     "You've used today's free translations. Go Pro for unlimited.": "你已用完今天的免費翻譯次數。升級 Pro 即可無限使用。",
@@ -208,8 +209,8 @@ APP = {
     "No previous purchases were found.": "找不到先前的購買項目。",
     "Lyrics": "歌詞",
     "Reset appearance": "重設外觀",
-    "Translation runs on your device with Apple's Translation framework (iOS 18 or later). Language packs download the first time you use them.":
-        "翻譯使用 Apple 的「翻譯」框架在你的裝置上執行（需要 iOS 18 或以上）。語言套件會在第一次使用時下載。",
+    "Songs in other languages translate into English on your iPhone (iOS 18 or later). You can pick another language below. Language packs download the first time you use them.":
+        "其他語言的歌曲會在你的 iPhone 上翻譯成英文（需要 iOS 18 或以上）。你也可以在下方選擇其他語言。語言套件會在第一次使用時下載。",
     "Global lyric offset": "全域歌詞偏移",
     "Positive values show lyrics earlier. You can also adjust a single song from the lyrics screen.":
         "正值讓歌詞提早顯示。你也可以在歌詞畫面單獨調整某一首歌。",
