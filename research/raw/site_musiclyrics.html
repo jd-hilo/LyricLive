@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Lyrics - Real-time Lyrics Display</title>
+    <link rel="alternate" hreflang="en" href="https://musiclyrics.cn/?lang=en" />
+    <link rel="alternate" hreflang="zh-CN" href="https://musiclyrics.cn/?lang=zh-CN" />
+    <link rel="alternate" hreflang="zh-TW" href="https://musiclyrics.cn/?lang=zh-TW" />
+    <link rel="alternate" hreflang="x-default" href="https://musiclyrics.cn/" />
+    <link rel="canonical" href="https://musiclyrics.cn/?lang=en" id="canonical-link" />
+    <meta name="description" content="Display real-time lyrics and translations on Lock Screen, Dynamic Island, Widgets, and Floating Windows" id="meta-description">
+    <meta property="og:title" content="Dynamic Lyrics - Real-time Lyrics Display" id="og-title">
+    <meta property="og:description" content="Display real-time lyrics and translations on Lock Screen, Dynamic Island, Widgets, and Floating Windows" id="og-description">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --text-color: #333;
+            --bg-color: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: var(--text-color);
+            background: var(--bg-color);
+            line-height: 1.6;
+        }
+
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: -10vh;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+            border-radius: 27.5%;  /* iOS 应用图标的标准圆角比例 */
+        }
+
+        .app-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .app-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .app-description {
+            font-size: 1.25rem;
+            color: #666;
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .download-btn {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,122,255,0.3);
+            margin: 0 0.5rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,122,255,0.4);
+        }
+
+        .download-btn.mac {
+            background: #2e3547;
+            color: #00e0d3;
+            box-shadow: 0 2px 8px #00e0d344;
+        }
+
+        .download-btn.mac:hover {
+            box-shadow: 0 4px 16px #00e0d355;
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screenshots {
+            padding: 2rem 0;
+            min-height: 100vh;
+        }
+
+        .screenshot-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .screenshot-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007AFF'%3E%3Cpath d='M12 16.59L6.7 11.29l1.41-1.41L12 13.17l3.88-3.88 1.41 1.41L12 16.59z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: bounce 2s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .screenshot-item {
+            display: grid;
+            grid-template-columns: 0.8fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            min-height: 90vh;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* CarPlay模块特殊样式 - 减少高度以适应横图 */
+        .screenshot-item[data-feature="carplayLyrics"],
+        .screenshot-item[data-feature="carplayWidget"] {
+            min-height: 50vh;
+            padding: 1.5rem;
+        }
+
+        .screenshot {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .screenshot-content {
+            text-align: left;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease-out 0.3s;
+            max-width: 450px;
+            padding-top: 3rem;
+        }
+
+        .screenshot-content.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .screenshot-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #007AFF, #5856D6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .screenshot-description {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .safety-warning {
+            font-size: 0.85rem;
+            color: #ff6b6b;
+            font-weight: 300;
+            line-height: 1.4;
+            margin-top: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        .language-selector {
+            margin-top: 0.5rem;
+        }
+
+        .language-selector select {
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            color: #666;
+            background: transparent;
+        }
+
+        .language-selector select:hover {
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 70vh;
+                margin-bottom: -5vh;
+            }
+
+            .screenshot-item {
+                min-height: auto;
+                padding: 2rem 1rem;
+            }
+
+            .screenshot-container::before {
+                width: 30px;
+                height: 30px;
+            }
+
+            .app-title {
+                font-size: 2rem;
+            }
+
+            .app-description {
+                font-size: 1rem;
+            }
+
+            .screenshot-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .screenshot-item:nth-child(n) {
+                flex-direction: column-reverse;
+            }
+
+            .screenshot {
+                max-width: 300px;
+            }
+
+            .screenshot-content {
+                text-align: center;
+                padding: 1rem;
+                max-width: 100%;
+                padding-top: 1rem;
+            }
+
+            .screenshot-title {
+                font-size: 1.5rem;
+            }
+
+            .screenshot-description {
+                font-size: 1rem;
+            }
+
+            /* 移动端CarPlay模块特殊样式 */
+            .screenshot-item[data-feature="carplayLyrics"],
+            .screenshot-item[data-feature="carplayWidget"] {
+                min-height: auto;
+                padding: 1rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="hero">
+            <img src="img/AppIcon_60@3x.png" alt="Dynamic Lyrics" class="app-icon" data-aos="fade-down">
+            <h1 class="app-title" data-aos="fade-up">Dynamic Lyrics</h1>
+            <p class="app-description" data-aos="fade-up" data-aos-delay="100">
+                Display real-time lyrics and translations on Lock Screen, Dynamic Island, Widgets, and Floating Windows
+            </p>
+            <div class="download-buttons" data-aos="fade-up" data-aos-delay="200">
+                <a href="https://apps.apple.com/app/id6476125287" class="download-btn" data-i18n="downloadBtn">
+                    Download on App Store
+                </a>
+                <a href="mac/" class="download-btn mac" data-i18n="downloadMacBtn">
+                    Mac Version
+                </a>
+            </div>
+        </section>
+
+        <section class="screenshots">
+            <div class="screenshot-container">
+                <div class="screenshot-item" data-aos="fade-up" data-feature="lockScreen">
+                    <img src="img/锁屏歌词.png" alt="Lock Screen Lyrics" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">Lock Screen Lyrics</h3>
+                        <p class="screenshot-description">Elegantly display real-time lyrics on the lock screen for a complete music experience. Supports various customization styles, perfectly integrated with system design.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="dynamicIsland">
+                    <img src="img/灵动岛歌词.png" alt="Dynamic Island Lyrics" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">Dynamic Island Lyrics</h3>
+                        <p class="screenshot-description">Fully utilize the Dynamic Island space to display real-time lyrics of the currently playing song. Perfectly integrated with the system without affecting other notifications.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="widgets">
+                    <img src="img/桌面小组件.png" alt="Home Screen Widgets" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">Home Screen Widgets</h3>
+                        <p class="screenshot-description">Beautiful home screen widgets with multiple sizes and styles to choose from. Integrate lyrics into your home screen and feel the rhythm of music anytime.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="floating">
+                    <img src="img/悬浮歌词.png" alt="Floating Lyrics" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">Floating Lyrics</h3>
+                        <p class="screenshot-description">Floating lyrics window with adjustable position, always stays on top without affecting other operations, supports various customizations.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="fullScreen">
+                    <img src="img/全屏歌词.png" alt="Full Screen Lyrics" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">Full Screen Lyrics</h3>
+                        <p class="screenshot-description">Immersive full-screen lyrics experience that clearly presents every line. Supports bilingual display for more focused music appreciation.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="translation">
+                    <img src="img/歌词翻译.png" alt="Lyrics Translation" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">Lyrics Translation</h3>
+                        <p class="screenshot-description">Intelligent lyrics translation feature supporting multiple language translations. Helps you understand lyrics meaning and experience deeper charm of music.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="standby">
+                    <img src="img/Standby.png" alt="StandBy Mode" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">StandBy Mode</h3>
+                        <p class="screenshot-description">Perfect support for iOS 17 StandBy mode, turning your device into a smart display. Automatically shows large-screen lyrics when device is lying flat.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="carplayLyrics">
+                    <img src="img/CarPlay首页歌词.png" alt="CarPlay Lyrics" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">CarPlay Lyrics</h3>
+                        <p class="screenshot-description">Display real-time lyrics on CarPlay home screen, navigation and karaoke without interference.</p>
+                        <p class="safety-warning">Note: Please focus on driving and do not look at lyrics while driving. CarPlay lyrics are only for passengers.</p>
+                    </div>
+                </div>
+
+                <div class="screenshot-item" data-aos="fade-up" data-feature="carplayWidget">
+                    <img src="img/CarPlay小组件.png" alt="CarPlay Widget" class="screenshot">
+                    <div class="screenshot-content">
+                        <h3 class="screenshot-title">CarPlay Widget</h3>
+                        <p class="screenshot-description">Display album cover and lyrics widget on CarPlay.</p>
+                        <p class="safety-warning">Note: Please focus on driving and do not look at lyrics while driving. CarPlay lyrics are only for passengers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="privacy.html" class="footer-link">Privacy Policy</a>
+                <a href="agreement.html" class="footer-link">User Agreement</a>
+                <a href="https://beian.miit.gov.cn/" target="_blank" class="footer-link">粤ICP备2024176912号-1</a>
+            </div>
+            <div class="language-selector">
+                <select id="language-selector">
+                    <option value="en">English</option>
+                    <option value="zh-CN">简体中文</option>
+                    <option value="zh-TW">繁體中文</option>
+                </select>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/language.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const options = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const content = entry.target.querySelector('.screenshot-content');
+                        const img = entry.target.querySelector('.screenshot');
+                        
+                        // 检查是否是移动设备
+                        if (window.innerWidth <= 768) {
+                            // 移动设备上先显示文案，延迟显示图片
+                            content.style.opacity = '1';
+                            content.style.transform = 'translateY(0)';
+                            
+                            setTimeout(() => {
+                                img.style.opacity = '1';
+                                img.style.transform = 'translateY(0)';
+                            }, 300);
+                        } else {
+                            // 桌面设备保持原有动画
+                            content.style.opacity = '1';
+                            content.style.transform = 'translateX(0)';
+                            img.style.opacity = '1';
+                            img.style.transform = 'translateX(0)';
+                        }
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.screenshot-item').forEach(item => {
+                const content = item.querySelector('.screenshot-content');
+                const img = item.querySelector('.screenshot');
+                
+                // 根据设备类型设置初始状态
+                if (window.innerWidth <= 768) {
+                    content.style.opacity = '0';
+                    content.style.transform = 'translateY(-30px)';
+                    img.style.opacity = '0';
+                    img.style.transform = 'translateY(30px)';
+                } else {
+                    content.style.opacity = '0';
+                    content.style.transform = 'translateX(50px)';
+                    img.style.opacity = '0';
+                    img.style.transform = 'translateX(-50px)';
+                }
+                
+                img.style.transition = 'all 0.6s ease-out';
+                content.style.transition = 'all 0.6s ease-out';
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
