@@ -1,0 +1,14 @@
+/* Widgets strings (zh-Hant) */
+"Lyrics" = "歌詞";
+"The current lyric line, updated as the song plays." = "目前的歌詞，會隨歌曲播放更新。";
+"Play a song to see lyrics" = "播放歌曲即可查看歌詞";
+"No synced lyrics" = "沒有同步歌詞";
+"No song playing" = "沒有正在播放的歌曲";
+"Unlock with Pro" = "使用 Pro 解鎖";
+"Open the app to upgrade." = "開啟 App 即可升級。";
+"Nothing playing" = "沒有正在播放的歌曲";
+"Now Playing" = "正在播放";
+"Album art with playback controls." = "專輯封面與播放控制。";
+"Play or Pause" = "播放或暫停";
+"Next Song" = "下一首";
+"Previous Song" = "上一首";

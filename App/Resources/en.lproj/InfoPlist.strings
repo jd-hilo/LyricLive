@@ -1,0 +1,3 @@
+/* Info.plist strings (en) */
+"NSAppleMusicUsageDescription" = "Lyrics need to know which song is playing in the Music app.";
+"NSMicrophoneUsageDescription" = "Shazam mode listens for music playing around you to identify the song. Audio is only used to find a match.";

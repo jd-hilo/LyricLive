@@ -1,0 +1,14 @@
+/* Widgets strings (en) */
+"Lyrics" = "Lyrics";
+"The current lyric line, updated as the song plays." = "The current lyric line, updated as the song plays.";
+"Play a song to see lyrics" = "Play a song to see lyrics";
+"No synced lyrics" = "No synced lyrics";
+"No song playing" = "No song playing";
+"Unlock with Pro" = "Unlock with Pro";
+"Open the app to upgrade." = "Open the app to upgrade.";
+"Nothing playing" = "Nothing playing";
+"Now Playing" = "Now Playing";
+"Album art with playback controls." = "Album art with playback controls.";
+"Play or Pause" = "Play or Pause";
+"Next Song" = "Next Song";
+"Previous Song" = "Previous Song";

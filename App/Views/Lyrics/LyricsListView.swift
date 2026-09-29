@@ -121,7 +121,7 @@ struct LyricsListView: View {
     private func lyricsScroll(document: LyricsDocument, style: LyricStyle) -> some View {
         ScrollViewReader { proxy in
             ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
+                VStack(spacing: 26) {
                     if !document.isSynced {
                         Label("These lyrics aren't time-synced.", systemImage: "info.circle")
                             .font(.footnote)

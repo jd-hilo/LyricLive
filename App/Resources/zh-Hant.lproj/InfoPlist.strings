@@ -1,0 +1,3 @@
+/* Info.plist strings (zh-Hant) */
+"NSAppleMusicUsageDescription" = "歌詞功能需要知道「音樂」App 正在播放哪一首歌。";
+"NSMicrophoneUsageDescription" = "Shazam 模式會聆聽你周圍播放的音樂以辨識歌曲。音訊僅用於尋找比對結果。";

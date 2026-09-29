@@ -55,16 +55,15 @@ struct LyricsScreen: View {
 
     private var portraitLayout: some View {
         VStack(spacing: 0) {
-            header
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
-            LyricsListView()
-            VStack(spacing: 14) {
-                ProgressScrubber()
-                bottomBar
+            HStack {
+                closeButton
+                Spacer()
+                moreMenu
             }
-            .padding(.horizontal, 24)
-            .padding(.bottom, 12)
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
+            LyricsListView()
+            bottomCard
         }
     }
 
@@ -95,53 +94,72 @@ struct LyricsScreen: View {
 
     // MARK: Pieces
 
-    private var header: some View {
-        VStack(spacing: 10) {
-            Capsule().fill(.white.opacity(0.3)).frame(width: 36, height: 5)
-            HStack(spacing: 12) {
-                ArtworkThumb(image: model.artwork, cornerRadius: 8)
-                    .frame(width: 44, height: 44)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(model.track?.title ?? "")
-                        .font(.system(size: 17, weight: .semibold))
-                        .lineLimit(1)
-                    HStack(spacing: 6) {
-                        Text(model.track?.artist ?? "")
-                            .font(.system(size: 13))
-                            .foregroundStyle(.white.opacity(0.65))
-                            .lineLimit(1)
-                        if let source = model.activeSource, source != .appleMusic {
-                            Image(systemName: source.symbolName)
-                                .font(.system(size: 11))
-                                .foregroundStyle(.white.opacity(0.65))
-                        }
-                    }
-                }
-                Spacer()
-                Menu {
-                    if let track = model.track {
-                        Button {
-                            favorites.toggleFavorite(track)
-                        } label: {
-                            Label(favorites.isFavorite(track) ? "Remove from favorites" : "Add to favorites",
-                                  systemImage: favorites.isFavorite(track) ? "heart.slash" : "heart")
-                        }
-                    }
-                    Button { showOptions = true } label: { Label("Lyric options", systemImage: "slider.horizontal.3") }
-                    Button { showSearch = true } label: { Label("Find other lyrics", systemImage: "magnifyingglass") }
-                    Button { showShare = true } label: { Label("Share lyrics", systemImage: "square.and.arrow.up") }
-                        .disabled(model.document == nil)
-                    Divider()
-                    Button { dismiss() } label: { Label("Close", systemImage: "xmark") }
+    /// Bottom identity bar from the full-screen lyrics screenshot: artwork, title, artist, heart.
+    private var nowPlayingIdentity: some View {
+        HStack(spacing: 12) {
+            ArtworkThumb(image: model.artwork, cornerRadius: 8)
+                .frame(width: 44, height: 44)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(model.track?.title ?? "")
+                    .font(.system(size: 16, weight: .bold))
+                    .lineLimit(1)
+                Text(model.track?.artist ?? "")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.white.opacity(0.65))
+                    .lineLimit(1)
+            }
+            Spacer(minLength: 8)
+            if let track = model.track {
+                Button {
+                    favorites.toggleFavorite(track)
                 } label: {
-                    Image(systemName: "ellipsis")
-                        .font(.system(size: 18, weight: .semibold))
+                    Image(systemName: favorites.isFavorite(track) ? "heart.fill" : "heart")
+                        .font(.system(size: 20))
+                        .foregroundStyle(favorites.isFavorite(track) ? Brand.pink : .white)
                         .frame(width: 40, height: 40)
-                        .background(.white.opacity(0.14), in: Circle())
                 }
-                .accessibilityLabel(Text("More"))
+                .accessibilityLabel(Text("Favorite"))
             }
         }
+    }
+
+    private var bottomCard: some View {
+        VStack(spacing: 6) {
+            ProgressScrubber()
+            nowPlayingIdentity
+            bottomBar
+        }
+        .padding(.horizontal, 18)
+        .padding(.top, 10)
+        .padding(.bottom, 8)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .padding(.horizontal, 10)
+        .padding(.bottom, 6)
+    }
+
+    private var moreMenu: some View {
+        Menu {
+            if let track = model.track {
+                Button {
+                    favorites.toggleFavorite(track)
+                } label: {
+                    Label(favorites.isFavorite(track) ? "Remove from favorites" : "Add to favorites",
+                          systemImage: favorites.isFavorite(track) ? "heart.slash" : "heart")
+                }
+            }
+            Button { showOptions = true } label: { Label("Lyric options", systemImage: "slider.horizontal.3") }
+            Button { showSearch = true } label: { Label("Find other lyrics", systemImage: "magnifyingglass") }
+            Button { showShare = true } label: { Label("Share lyrics", systemImage: "square.and.arrow.up") }
+                .disabled(model.document == nil)
+            Divider()
+            Button { dismiss() } label: { Label("Close", systemImage: "xmark") }
+        } label: {
+            Image(systemName: "ellipsis")
+                .font(.system(size: 18, weight: .semibold))
+                .frame(width: 40, height: 40)
+                .background(.white.opacity(0.14), in: Circle())
+        }
+        .accessibilityLabel(Text("More"))
     }
 
     private var closeButton: some View {

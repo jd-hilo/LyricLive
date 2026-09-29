@@ -123,23 +123,29 @@ struct LockScreenLyricView: View {
                         .lineLimit(1)
                 }
                 Spacer(minLength: 8)
-                HStack(spacing: 18) {
-                    Button(intent: PreviousTrackIntent()) { Image(systemName: "backward.fill") }
-                    Button(intent: PlayPauseIntent()) {
-                        Image(systemName: state.isPlaying ? "pause.fill" : "play.fill").font(.system(size: 20))
-                    }
-                    Button(intent: NextTrackIntent()) { Image(systemName: "forward.fill") }
-                }
-                .buttonStyle(.plain)
-                .font(.system(size: 16))
+                Image(systemName: "waveform")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(.white.opacity(state.isPlaying ? 0.9 : 0.35))
+                    .symbolEffect(.variableColor.iterative, isActive: state.isPlaying)
             }
 
             progress
 
-            LyricBlock(state: state, currentSize: 17, dimmedPrevious: false)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 6)
-                .background(.white.opacity(0.09), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            HStack(spacing: 28) {
+                Button(intent: PreviousTrackIntent()) { Image(systemName: "backward.fill") }
+                Button(intent: PlayPauseIntent()) {
+                    Image(systemName: state.isPlaying ? "pause.fill" : "play.fill")
+                }
+                Button(intent: NextTrackIntent()) { Image(systemName: "forward.fill") }
+            }
+            .buttonStyle(.plain)
+            .font(.system(size: 18, weight: .semibold))
+            .frame(maxWidth: .infinity)
+
+            LyricBlock(state: state, currentSize: 17, dimmedPrevious: true)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 8)
+                .background(.white.opacity(0.10), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .foregroundStyle(.white)
         .padding(.horizontal, 16)
