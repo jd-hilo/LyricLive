@@ -1,0 +1,142 @@
+# XcodeGen project definition. Generate the Xcode project with:
+#   brew install xcodegen && xcodegen generate
+#
+# To rename the app or change bundle IDs, edit the four values under settings.base
+# (APP_DISPLAY_NAME, APP_BUNDLE_ID_BASE, APP_URL_SCHEME, SPOTIFY_CLIENT_ID) and DEVELOPMENT_TEAM.
+name: LyricLive
+
+options:
+  bundleIdPrefix: com.example
+  developmentLanguage: en
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    # ---- Rename / configure here ---------------------------------------------------------
+    APP_DISPLAY_NAME: LyricLive
+    APP_BUNDLE_ID_BASE: com.example.lyriclive
+    APP_URL_SCHEME: lyriclive
+    # Create an app at https://developer.spotify.com/dashboard and paste its Client ID.
+    # Redirect URI to register there: lyriclive://spotify-login-callback
+    SPOTIFY_CLIENT_ID: YOUR_SPOTIFY_CLIENT_ID
+    # StoreKit product IDs are "<prefix>.monthly", ".yearly" and ".lifetime".
+    PRODUCT_ID_PREFIX: com.example.lyriclive.pro
+
+packages:
+  LyricCore:
+    path: Packages/LyricCore
+  # Optional. Remove this entry and the SpotifyiOS dependency below to build without Spotify support;
+  # the code is guarded by #if canImport(SpotifyiOS).
+  SpotifyiOS:
+    url: https://github.com/spotify/ios-sdk
+    from: 5.0.1
+
+targets:
+  LyricLive:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+        excludes:
+          - "**/*.storekit"
+      - path: Shared
+      - path: App/Resources/LyricLive.storekit
+        buildPhase: none
+    dependencies:
+      - target: LyricLiveWidgets
+        embed: true
+      - package: LyricCore
+      - package: SpotifyiOS
+    info:
+      path: Config/App-Info.plist
+      properties:
+        CFBundleDisplayName: $(APP_DISPLAY_NAME)
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, zh-Hant]
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        ITSAppUsesNonExemptEncryption: false
+        NSAppleMusicUsageDescription: Lyrics need to know which song is playing in the Music app.
+        NSMicrophoneUsageDescription: Shazam mode listens for music playing around you to identify the song. Audio is only used to find a match.
+        NSSupportsLiveActivities: true
+        NSSupportsLiveActivitiesFrequentUpdates: true
+        UIBackgroundModes: [audio]
+        LSApplicationQueriesSchemes: [spotify]
+        CFBundleURLTypes:
+          - CFBundleURLName: $(APP_BUNDLE_ID_BASE)
+            CFBundleURLSchemes: [$(APP_URL_SCHEME)]
+        LLAppGroup: group.$(APP_BUNDLE_ID_BASE)
+        LLURLScheme: $(APP_URL_SCHEME)
+        LLSpotifyClientID: $(SPOTIFY_CLIENT_ID)
+        LLProductPrefix: $(PRODUCT_ID_PREFIX)
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+          UISceneConfigurations:
+            CPTemplateApplicationSceneSessionRoleApplication:
+              - UISceneClassName: CPTemplateApplicationScene
+                UISceneConfigurationName: CarPlay
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).CarPlaySceneDelegate
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID_BASE)
+        PRODUCT_NAME: LyricLive
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        # Swap for Config/App-CarPlay.entitlements once Apple grants the CarPlay entitlement (see README).
+        CODE_SIGN_ENTITLEMENTS: Config/App.entitlements
+        CODE_SIGN_STYLE: Automatic
+        SWIFT_EMIT_LOC_STRINGS: YES
+
+  LyricLiveWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widgets
+      - path: Shared
+    dependencies:
+      - package: LyricCore
+    info:
+      path: Config/Widgets-Info.plist
+      properties:
+        CFBundleDisplayName: $(APP_DISPLAY_NAME)
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, zh-Hant]
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LLAppGroup: group.$(APP_BUNDLE_ID_BASE)
+        LLURLScheme: $(APP_URL_SCHEME)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID_BASE).widgets
+        CODE_SIGN_ENTITLEMENTS: Config/Widgets.entitlements
+        SKIP_INSTALL: YES
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        SWIFT_EMIT_LOC_STRINGS: YES
+
+schemes:
+  LyricLive:
+    build:
+      targets:
+        LyricLive: all
+        LyricLiveWidgets: all
+    run:
+      config: Debug
+      storeKitConfiguration: App/Resources/LyricLive.storekit
+    archive:
+      config: Release
