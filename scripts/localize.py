@@ -55,7 +55,7 @@ APP = {
     "Connecting…": "連接中…",
     "Tap Connect to authorize in the Spotify app.": "點一下「連接」，在 Spotify App 中授權。",
     "Couldn't connect. Open Spotify and try again.": "無法連接。請開啟 Spotify 後再試一次。",
-    "Add your Spotify client ID to enable this.": "請加入你的 Spotify Client ID 以啟用。",
+    "Spotify isn't available in this version yet.": "此版本尚未支援 Spotify。",
     "Follow songs playing in Spotify.": "跟隨 Spotify 正在播放的歌曲。",
     "Listening for music nearby…": "正在聆聽周圍的音樂…",
     "Couldn't listen. Check microphone access.": "無法聆聽，請檢查麥克風權限。",
@@ -232,7 +232,6 @@ APP = {
     "Media & Apple Music access is turned off in Settings.": "「媒體與 Apple Music」存取權限已在設定中關閉。",
     "Microphone access is turned off in Settings.": "麥克風存取權限已在設定中關閉。",
     "On-device translation needs iOS 18 or later.": "裝置端翻譯需要 iOS 18 或以上版本。",
-    "Add your Spotify client ID in project.yml.": "請在 project.yml 中加入你的 Spotify Client ID。",
     "Spotify SDK is not linked. See the README.": "尚未連結 Spotify SDK，請參閱 README。",
     "No purchase options are available right now.": "目前沒有可用的購買方案。",
     # CarPlay

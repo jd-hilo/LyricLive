@@ -209,7 +209,7 @@ struct HomeView: View {
         case .connected: return "Connected to Spotify."
         case .connecting: return "Connecting…"
         case .needsPermission: return "Tap Connect to authorize in the Spotify app."
-        case .unavailable: return AppConfig.isSpotifyConfigured ? "Couldn't connect. Open Spotify and try again." : "Add your Spotify client ID to enable this."
+        case .unavailable: return AppConfig.isSpotifyConfigured ? "Couldn't connect. Open Spotify and try again." : "Spotify isn't available in this version yet."
         default: return "Follow songs playing in Spotify."
         }
     }

@@ -5,7 +5,7 @@ import UIKit
 /// Values injected through Info.plist (see `project.yml`), so renaming the app is a one-line change.
 enum AppGroup {
     static var identifier: String {
-        (Bundle.main.object(forInfoDictionaryKey: "LLAppGroup") as? String) ?? "group.com.example.lyriclive"
+        (Bundle.main.object(forInfoDictionaryKey: "LLAppGroup") as? String) ?? "group.com.hilollc.lyriclive"
     }
 
     static var defaults: UserDefaults {

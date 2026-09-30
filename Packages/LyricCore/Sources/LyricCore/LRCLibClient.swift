@@ -76,7 +76,7 @@ public struct LRCLibClient: Sendable {
 
     public init(
         baseURL: URL = LRCLibClient.defaultBaseURL,
-        userAgent: String = "LyricLive/1.0 (https://github.com/example/lyriclive)",
+        userAgent: String = "LyricLive/1.0 (https://github.com/jd-hilo/LyricLive)",
         fetcher: HTTPFetching = URLSessionFetcher()
     ) {
         self.baseURL = baseURL

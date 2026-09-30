@@ -19,10 +19,10 @@ enum AppConfig {
 
     // MARK: StoreKit
 
-    /// Placeholder product identifiers. Create matching products in App Store Connect
-    /// (or edit `App/Resources/LyricLive.storekit` for local testing).
+    /// Set by `PRODUCT_ID_PREFIX` in `project.yml`. The same IDs must exist in App Store Connect
+    /// and in `App/Resources/LyricLive.storekit` for local testing.
     static var productIDPrefix: String {
-        info("LLProductPrefix") ?? "com.example.lyriclive.pro"
+        info("LLProductPrefix") ?? "com.hilollc.lyriclive.pro"
     }
 
     static var monthlyProductID: String { productIDPrefix + ".monthly" }
@@ -55,7 +55,9 @@ enum AppConfig {
 
     // MARK: Links
 
-    static let privacyURL = URL(string: "https://example.com/lyriclive/privacy")!
-    static let termsURL = URL(string: "https://example.com/lyriclive/terms")!
-    static let supportEmail = "support@example.com"
+    /// Hosted with GitHub Pages from `docs/` on the main branch of github.com/jd-hilo/LyricLive.
+    static let privacyURL = URL(string: "https://jd-hilo.github.io/LyricLive/privacy.html")!
+    static let termsURL = URL(string: "https://jd-hilo.github.io/LyricLive/terms.html")!
+    static let supportURL = URL(string: "https://jd-hilo.github.io/LyricLive/")!
+    static let supportEmail = "jd@hilo.media"
 }

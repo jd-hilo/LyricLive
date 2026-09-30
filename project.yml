@@ -1,12 +1,12 @@
 # XcodeGen project definition. Generate the Xcode project with:
 #   brew install xcodegen && xcodegen generate
 #
-# To rename the app or change bundle IDs, edit the four values under settings.base
-# (APP_DISPLAY_NAME, APP_BUNDLE_ID_BASE, APP_URL_SCHEME, SPOTIFY_CLIENT_ID) and DEVELOPMENT_TEAM.
+# Every identifier lives in the "Configure here" block under settings.base. The targets only
+# reference those values, so the team, bundle IDs, App Group and product IDs are set in one place.
 name: LyricLive
 
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.hilollc
   developmentLanguage: en
   deploymentTarget:
     iOS: "17.0"
@@ -21,17 +21,23 @@ settings:
     TARGETED_DEVICE_FAMILY: "1,2"
     MARKETING_VERSION: "1.0.0"
     CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: ""
     ENABLE_USER_SCRIPT_SANDBOXING: YES
-    # ---- Rename / configure here ---------------------------------------------------------
+    # ---- Configure here (the only place these values are set) ----------------------------
+    # Apple Developer Team ID for Hilo LLC. Same team as Petmoji (com.hilollc.petmoji.app).
+    DEVELOPMENT_TEAM: N8SACG5845
     APP_DISPLAY_NAME: LyricLive
-    APP_BUNDLE_ID_BASE: com.example.lyriclive
+    # App: com.hilollc.lyriclive   Widget extension: com.hilollc.lyriclive.widgets
+    APP_BUNDLE_ID_BASE: com.hilollc.lyriclive
+    # Shared by the app and the widget extension (entitlements and Info.plist LLAppGroup).
+    APP_GROUP_ID: group.$(APP_BUNDLE_ID_BASE)   # resolves to group.com.hilollc.lyriclive
     APP_URL_SCHEME: lyriclive
     # Create an app at https://developer.spotify.com/dashboard and paste its Client ID.
     # Redirect URI to register there: lyriclive://spotify-login-callback
+    # iOS bundle ID to register there: com.hilollc.lyriclive
     SPOTIFY_CLIENT_ID: YOUR_SPOTIFY_CLIENT_ID
-    # StoreKit product IDs are "<prefix>.monthly", ".yearly" and ".lifetime".
-    PRODUCT_ID_PREFIX: com.example.lyriclive.pro
+    # StoreKit product IDs: com.hilollc.lyriclive.pro.monthly, .yearly and .lifetime.
+    # Keep App/Resources/LyricLive.storekit in sync if you change this.
+    PRODUCT_ID_PREFIX: com.hilollc.lyriclive.pro
 
 packages:
   LyricCore:
@@ -50,9 +56,12 @@ targets:
       - path: App
         excludes:
           - "**/*.storekit"
+          - "**/PrivacyInfo.xcprivacy"
       - path: Shared
       - path: App/Resources/LyricLive.storekit
         buildPhase: none
+      - path: App/Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
     dependencies:
       - target: LyricLiveWidgets
         embed: true
@@ -80,7 +89,7 @@ targets:
         CFBundleURLTypes:
           - CFBundleURLName: $(APP_BUNDLE_ID_BASE)
             CFBundleURLSchemes: [$(APP_URL_SCHEME)]
-        LLAppGroup: group.$(APP_BUNDLE_ID_BASE)
+        LLAppGroup: $(APP_GROUP_ID)
         LLURLScheme: $(APP_URL_SCHEME)
         LLSpotifyClientID: $(SPOTIFY_CLIENT_ID)
         LLProductPrefix: $(PRODUCT_ID_PREFIX)
@@ -107,7 +116,11 @@ targets:
     platform: iOS
     sources:
       - path: Widgets
+        excludes:
+          - "**/PrivacyInfo.xcprivacy"
       - path: Shared
+      - path: Widgets/Resources/PrivacyInfo.xcprivacy
+        buildPhase: resources
     dependencies:
       - package: LyricCore
     info:
@@ -118,7 +131,7 @@ targets:
         CFBundleLocalizations: [en, zh-Hant]
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-        LLAppGroup: group.$(APP_BUNDLE_ID_BASE)
+        LLAppGroup: $(APP_GROUP_ID)
         LLURLScheme: $(APP_URL_SCHEME)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension

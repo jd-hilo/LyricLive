@@ -74,7 +74,7 @@ final class SpotifySource: NSObject, NowPlayingSource {
 
     func start() {
         guard AppConfig.isSpotifyConfigured else {
-            status = .unavailable(String(localized: "Add your Spotify client ID in project.yml."))
+            status = .unavailable(String(localized: "Spotify isn't available in this version yet."))
             return
         }
         isRunning = true
@@ -112,7 +112,7 @@ final class SpotifySource: NSObject, NowPlayingSource {
     /// Opens Spotify to authorize this app, then returns through `handleOpenURL`.
     func authorize() {
         guard AppConfig.isSpotifyConfigured else {
-            status = .unavailable(String(localized: "Add your Spotify client ID in project.yml."))
+            status = .unavailable(String(localized: "Spotify isn't available in this version yet."))
             return
         }
         isRunning = true

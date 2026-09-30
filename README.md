@@ -19,23 +19,35 @@ open LyricLive.xcodeproj
 
 Run the **LyricLive** scheme on an iPhone or simulator (iOS 17+). The scheme loads `App/Resources/LyricLive.storekit`, so the paywall works without App Store Connect.
 
-To rename the app, edit the four values at the top of `settings.base` in `project.yml` (`APP_DISPLAY_NAME`, `APP_BUNDLE_ID_BASE`, `APP_URL_SCHEME`, `PRODUCT_ID_PREFIX`), then run `xcodegen generate` again.
+All identifiers are set once, in the “Configure here” block of `settings.base` in `project.yml`. Change them there and run `xcodegen generate` again. Current values:
+
+| Setting | Value |
+|---|---|
+| `DEVELOPMENT_TEAM` | `N8SACG5845` (Hilo LLC, same team as Petmoji) |
+| `APP_BUNDLE_ID_BASE` (app) | `com.hilollc.lyriclive` |
+| Widget extension bundle ID | `com.hilollc.lyriclive.widgets` |
+| `APP_GROUP_ID` | `group.com.hilollc.lyriclive` |
+| `APP_URL_SCHEME` | `lyriclive` |
+| `PRODUCT_ID_PREFIX` | `com.hilollc.lyriclive.pro` |
+| `SPOTIFY_CLIENT_ID` | not set yet (`YOUR_SPOTIFY_CLIENT_ID`) |
+
+[`SHIPPING.md`](SHIPPING.md) is the step-by-step list for Apple Developer, App Store Connect, and Spotify.
 
 ## Capabilities and entitlements
 
-Create the App ID for `com.example.lyriclive` (or whatever `APP_BUNDLE_ID_BASE` is) and a second App ID for the widget extension (`<base>.widgets`). Turn on:
+Create the App ID `com.hilollc.lyriclive` and a second App ID for the widget extension, `com.hilollc.lyriclive.widgets`. Turn on:
 
 | Capability | Where | Why |
 |---|---|---|
-| App Groups (`group.<bundle id>`) | App and widget extension | The app writes now-playing state and artwork; widgets and the Live Activity read them. Already in `Config/App.entitlements` and `Config/Widgets.entitlements`. |
-| MusicKit | App ID, plus a MusicKit key if you call the catalog | Apple Music catalog lookup for Shazam matches (duration and album). Media library access is requested at runtime for the system music player. |
-| ShazamKit | No extra entitlement on recent iOS; microphone usage string is in Info.plist | Identifying music playing nearby. |
+| App Groups (`group.com.hilollc.lyriclive`) | App and widget extension | The app writes now-playing state and artwork; widgets and the Live Activity read them. Already in `Config/App.entitlements` and `Config/Widgets.entitlements`. |
+| MusicKit | App ID → App Services tab | Apple Music catalog lookup for Shazam matches (duration and album). Media library access is requested at runtime for the system music player. |
+| ShazamKit | App ID → App Services tab; microphone usage string is in Info.plist | Identifying music playing nearby. |
 | Live Activities / Frequent Updates | Info.plist keys `NSSupportsLiveActivities` and `NSSupportsLiveActivitiesFrequentUpdates` | Lock Screen and Dynamic Island. Also enable Live Activities for the app in Settings on device. |
 | Background Modes → Audio | Info.plist `UIBackgroundModes: audio` | Optional “keep lyrics updating in the background” setting. Off by default. |
 | In-App Purchase | App ID | StoreKit 2 products below. |
 | CarPlay Audio | App ID, after Apple approves the entitlement | See below. Not included in the default entitlements file, because signing fails without the grant. |
 
-Set `DEVELOPMENT_TEAM` in `project.yml` before you archive.
+`DEVELOPMENT_TEAM` is set to `N8SACG5845` in `project.yml`. Signing is automatic.
 
 ### CarPlay
 
@@ -48,13 +60,13 @@ Audio apps may only use the system list, grid, and now-playing templates, so lyr
 
 ### StoreKit products
 
-Create these in App Store Connect, in one subscription group plus a non-consumable. The identifiers must match `PRODUCT_ID_PREFIX`:
+Create these in App Store Connect, in one subscription group (“LyricLive Pro”) plus a non-consumable. The identifiers must match `PRODUCT_ID_PREFIX` (`com.hilollc.lyriclive.pro`):
 
-| Product | Id suffix | Reference price |
+| Product | Product ID | Reference price |
 |---|---|---|
-| Yearly, auto-renewable | `.yearly` | $6.99 |
-| Monthly, auto-renewable | `.monthly` | $2.99 |
-| Lifetime, non-consumable | `.lifetime` | $9.99 |
+| Yearly, auto-renewable | `com.hilollc.lyriclive.pro.yearly` | $6.99 |
+| Monthly, auto-renewable | `com.hilollc.lyriclive.pro.monthly` | $2.99 |
+| Lifetime, non-consumable | `com.hilollc.lyriclive.pro.lifetime` | $9.99 |
 
 Local testing uses `App/Resources/LyricLive.storekit` with those same ids and prices. A debug-only “Unlock Pro” switch in Settings bypasses StoreKit.
 
@@ -67,7 +79,7 @@ The project compiles with or without the Spotify iOS SDK. `project.yml` depends 
 To turn it on:
 
 1. Create an app at the [Spotify developer dashboard](https://developer.spotify.com/dashboard).
-2. Add the redirect URI `<scheme>://spotify-login-callback` (default `lyriclive://spotify-login-callback`).
+2. Add the redirect URI `lyriclive://spotify-login-callback`, tick “iOS”, and add the bundle ID `com.hilollc.lyriclive`.
 3. Set `SPOTIFY_CLIENT_ID` in `project.yml`.
 4. Install Spotify on the device. App Remote controls the Spotify app; it does not stream audio itself.
 
@@ -89,6 +101,7 @@ Widgets/                     WidgetKit extension and the Live Activity
 Packages/LyricCore/          Parser, sync, LRCLIB client, cache (no UIKit)
 App/Resources/*.lproj        English (default) and optional Traditional Chinese strings
 Config/*.entitlements        App Group, and the CarPlay variant
+docs/                        GitHub Pages: support, privacy policy, terms
 research/                    Scraped listing, SPEC.md, UI_PARITY.md, screenshots
 ```
 
@@ -105,7 +118,15 @@ This covers the LRC parser (including a real LRCLIB timestamp shape), the sync e
 
 ## Privacy
 
-No account, no analytics. The only network calls are LRCLIB and, if you connect it, Spotify’s auth. Apple Music and the microphone are used on device. Purchases go through StoreKit. Privacy and terms URLs in `App/Config/AppConfig.swift` are placeholders (`example.com`); replace them before shipping.
+No account, no analytics. The only network calls are LRCLIB and, if you connect it, Spotify’s auth. Apple Music and the microphone are used on device. Purchases go through StoreKit.
+
+The public pages are in `docs/`, served by GitHub Pages from `main`, and linked from `App/Config/AppConfig.swift`:
+
+- Support: https://jd-hilo.github.io/LyricLive/
+- Privacy policy: https://jd-hilo.github.io/LyricLive/privacy.html
+- Terms of use: https://jd-hilo.github.io/LyricLive/terms.html
+
+`App/Resources/PrivacyInfo.xcprivacy` and `Widgets/Resources/PrivacyInfo.xcprivacy` are the privacy manifests (no tracking, no collected data, UserDefaults and file-timestamp reasons).
 
 ## What still needs a device
 

@@ -9,7 +9,7 @@ enum PurchaseOutcome: Equatable {
 }
 
 /// StoreKit 2: one auto-renewing subscription group (monthly + yearly) and a non-consumable lifetime unlock.
-/// Product identifiers are placeholders, see `AppConfig`.
+/// Product identifiers come from `PRODUCT_ID_PREFIX` in `project.yml`, see `AppConfig`.
 @MainActor
 final class StoreManager: ObservableObject {
     enum LoadState: Equatable {

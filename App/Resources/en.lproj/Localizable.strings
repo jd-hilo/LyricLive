@@ -41,7 +41,7 @@
 "Connecting…" = "Connecting…";
 "Tap Connect to authorize in the Spotify app." = "Tap Connect to authorize in the Spotify app.";
 "Couldn't connect. Open Spotify and try again." = "Couldn't connect. Open Spotify and try again.";
-"Add your Spotify client ID to enable this." = "Add your Spotify client ID to enable this.";
+"Spotify isn't available in this version yet." = "Spotify isn't available in this version yet.";
 "Follow songs playing in Spotify." = "Follow songs playing in Spotify.";
 "Listening for music nearby…" = "Listening for music nearby…";
 "Couldn't listen. Check microphone access." = "Couldn't listen. Check microphone access.";
@@ -199,7 +199,6 @@
 "Media & Apple Music access is turned off in Settings." = "Media & Apple Music access is turned off in Settings.";
 "Microphone access is turned off in Settings." = "Microphone access is turned off in Settings.";
 "On-device translation needs iOS 18 or later." = "On-device translation needs iOS 18 or later.";
-"Add your Spotify client ID in project.yml." = "Add your Spotify client ID in project.yml.";
 "Spotify SDK is not linked. See the README." = "Spotify SDK is not linked. See the README.";
 "No purchase options are available right now." = "No purchase options are available right now.";
 "Controls" = "Controls";
